@@ -1,0 +1,102 @@
+{
+    "whatsapp": "5565992242567",
+    "horarios": {
+    
+        "Segunda-feira": {
+            "aberto": "08:00",
+            "fechado": "12:00",
+            "aberto_2": "13:22",
+            "fechado_2": "18:22",
+            "fechado_dia": true
+        },
+    
+        "Terça-feira": {
+            "aberto": "08:00",
+            "fechado": "18:00",
+            "aberto_2": "",
+            "fechado_2": "",
+            "fechado_dia": true
+        },
+    
+        "Quarta-feira": {
+            "aberto": "08:00",
+            "fechado": "18:00",
+            "aberto_2": "",
+            "fechado_2": "",
+            "fechado_dia": true
+        },
+    
+        "Quinta-feira": {
+            "aberto": "08:00",
+            "fechado": "18:00",
+            "aberto_2": "",
+            "fechado_2": "",
+            "fechado_dia": false
+        },
+    
+        "Sexta-feira": {
+            "aberto": "08:00",
+            "fechado": "18:00",
+            "aberto_2": "",
+            "fechado_2": "",
+            "fechado_dia": false
+        },
+    
+        "Sábado": {
+            "aberto": "08:00",
+            "fechado": "18:00",
+            "aberto_2": "",
+            "fechado_2": "",
+            "fechado_dia": false
+        },
+    
+        "Domingo": {
+            "aberto": "08:00",
+            "fechado": "18:00",
+            "aberto_2": "",
+            "fechado_2": "",
+            "fechado_dia": false
+        }
+    
+    },
+    "produtos": [
+    
+    {
+        "id": 1,
+        "titulo": "teste",
+        "descricao": "fdfvadf",
+        "preco": 10.54,
+        "imagem": "http://gestor.lojadobrasil.com.br//static/uploads/bf72068e74484864add1436e068d9aea_1770906802.jpg",
+        "categoria": "Todos"
+    },
+    
+    {
+        "id": 2,
+        "titulo": "bljhuhgggk",
+        "descricao": " nbjhjh",
+        "preco": 8.0,
+        "imagem": "http://gestor.lojadobrasil.com.br//static/uploads/bf72068e74484864add1436e068d9aea_1770906802.jpg",
+        "categoria": "Todos"
+    },
+    
+    {
+        "id": 4,
+        "titulo": "teste",
+        "descricao": "sdsafasdf",
+        "preco": 10.54,
+        "imagem": "https://th.bing.com/th/id/R.f61eefaac493ce85361484e2b516c33c?rik=1cFP%2b9pF5GDOUQ&riu=http%3a%2f%2f1.bp.blogspot.com%2f-zSNBp8ja0ts%2fVT5RKeY4mMI%2fAAAAAAABDAg%2fxWh05EG8XEU%2fs1600%2fgreat-nature-landscape-2560x1600-wallpaper-4850.jpg&ehk=XXT6slOWAKGBDb094%2bJQA0e5U9BsOZCxpTqzLkxS1QM%3d&risl=&pid=ImgRaw&r=0",
+        "categoria": "Todos"
+    }
+    
+    ],
+    "zonas_entrega": [
+    
+    {
+        "bairro": "Residencial Claúdio Marchetti",
+        "cep_inicio": "78076-301",
+        "cep_fim": "78076-320",
+        "valor_entrega": 0.68
+    }
+    
+    ]
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 id="storeName"><i class="fas fa-utensils"></i> Carregando...</h1>
+            <p id="storeDesc"></p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar produtos...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </header>
+
+    <nav class="categories-nav">
+        <div class="container scroll-x" id="categoryFilter">
+            <button class="cat-btn active" data-id="all">Todos</button>
+            <!-- Categories injected here -->
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="product-grid" id="productGrid">
+            <!-- Products injected here -->
+        </div>
+    </main>
+
+    <div class="cart-fab" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
+            <button class="close-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items injected here -->
+        </div>
+        <div class="cart-footer">
+            <div class="checkout-form">
+                <input type="text" id="custName" placeholder="Seu Nome" required>
+                <input type="text" id="custAddress" placeholder="Endereço (Rua, Número, Apto)" required>
+                <div style="position: relative; margin-bottom: 0.6rem;">
+                    <input type="text" id="cepInput" placeholder="Seu CEP (Ex: 00000-000)" maxlength="9"
+                        oninput="verifyCEP()">
+                    <span id="cepStatus"
+                        style="font-size: 0.75rem; display: block; margin-top: -0.4rem; padding-left: 0.2rem;"></span>
+                </div>
+                <select id="paymentMethod">
+                    <option value="Cartão">Cartão</option>
+                    <option value="Pix">Pix</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                </select>
+            </div>
+            <div class="total-row" style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+                <span>Subtotal:</span>
+                <span id="cartSubtotal">R$ 0,00</span>
+            </div>
+            <div class="total-row" style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                <span>Frete:</span>
+                <span id="deliveryFee">R$ 0,00</span>
+            </div>
+            <div class="total-row">
+                <span>Total:</span>
+                <span id="cartTotal">R$ 0,00</span>
+            </div>
+            <button class="checkout-btn" onclick="sendOrder()">
+                <i class="fab fa-whatsapp"></i> Finalizar Pedido
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

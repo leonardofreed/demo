@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Direto</title>
+    <style>
+        body { font-family: sans-serif; background: #eee; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .produto { background: #fff; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-add { background: #e67e22; color: #fff; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        #carrinho { background: #fff; padding: 20px; border-radius: 8px; margin-top: 30px; border: 2px solid #333; }
+        .btn-wpp { display: block; background: #25d366; color: #fff; text-align: center; text-decoration: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1.2em; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="nome-loja">Carregando...</h1>
+    <div id="lista-produtos"></div>
+
+    <div id="carrinho">
+        <h2>Seu Carrinho</h2>
+        <div id="itens-carrinho"><p>Carrinho vazio...</p></div>
+        <h3 id="total-carrinho">Total: R$ 0,00</h3>
+        <!-- SOLUÇÃO: Link direto <a> em vez de função com window.open -->
+        <a href="#" id="link-finalizar" class="btn-wpp" style="display: none;">FINALIZAR NO WHATSAPP</a>
+    </div>
+</div>
+
+<script>
+    const API = "https://gestor.lojadobrasil.com.br";
+    let produtos = [], carrinho = [], whatsappLoja = "";
+
+    fetch(API).then(r => r.json()).then(dados => {
+        document.getElementById('nome-loja').innerText = dados.loja;
+        produtos = dados.produtos;
+        whatsappLoja = dados.whatsapp;
+        document.getElementById('lista-produtos').innerHTML = produtos.map(p => `
+            <div class="produto">
+                <div><strong>${p.titulo}</strong><br>R$ ${p.preco.toFixed(2)}</div>
+                <button class="btn-add" onclick="add(${p.id})">Adicionar</button>
+            </div>`).join('');
+    });
+
+    function add(id) {
+        carrinho.push(produtos.find(item => item.id === id));
+        atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+        const lista = document.getElementById('itens-carrinho');
+        const linkWpp = document.getElementById('link-finalizar');
+        let total = 0, texto = `*NOVO PEDIDO*\n\n`;
+
+        lista.innerHTML = carrinho.map(item => {
+            total += item.preco;
+            texto += `• ${item.titulo} - R$ ${item.preco.toFixed(2)}\n`;
+            return `<div>${item.titulo} - R$ ${item.preco.toFixed(2)}</div>`;
+        }).join('');
+
+        document.getElementById('total-carrinho').innerText = `Total: R$ ${total.toFixed(2)}`;
+        texto += `\n*TOTAL: R$ ${total.toFixed(2)}*`;
+
+        // ATUALIZA O LINK NO "href" - O navegador não bloqueia isso!
+        linkWpp.href = `https://api.whatsapp.com{whatsappLoja}&text=${encodeURIComponent(texto)}`;
+        linkWpp.style.display = "block";
+    }
+</script>
+</body>
+</html>
