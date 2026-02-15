@@ -3,10 +3,13 @@ let cart = [];
 let currentDeliveryFee = 0;
 let detectedBairro = "";
 
+// Cache bust: usa o mesmo token do index.html para forçar atualização no GitHub Pages
+const cacheToken = typeof window !== 'undefined' && window.CACHE_TOKEN ? '?v=' + window.CACHE_TOKEN : '';
+
 // Load data from data.json
 async function loadData() {
     try {
-        const response = await fetch('data.json');
+        const response = await fetch('data.json' + cacheToken);
         storeData = await response.json();
         renderCategories();
         renderProducts();
