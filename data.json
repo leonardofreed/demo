@@ -64,10 +64,10 @@
     {
         "id": 1,
         "titulo": "teste",
-        "descricao": "fdfvadf",
+        "descricao": "nova foto",
         "preco": 10.54,
-        "imagem": "http://gestor.lojadobrasil.com.br//static/uploads/bf72068e74484864add1436e068d9aea_1770906802.jpg",
-        "categoria": "Todos"
+        "imagem": "http://gestor.lojadobrasil.com.br/static/uploads/5d71090d8a994295a31445b5705c811b_1770839724.png",
+        "categoria": "GELADOS"
     },
     
     {
