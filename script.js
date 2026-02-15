@@ -17,6 +17,8 @@ async function loadData() {
     }
 }
 
+const DIAS_SEMANA = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
 function updateHeader() {
     // API returns 'loja' for store name. Checking both for compatibility.
     const storeName = storeData.loja || storeData.store?.name || "Catálogo Digital";
@@ -24,6 +26,71 @@ function updateHeader() {
 
     document.getElementById('storeName').innerHTML = `<i class="fas fa-utensils"></i> ${storeName}`;
     document.getElementById('storeDesc').textContent = storeDesc;
+
+    if (storeData.horarios) {
+        renderHorarios();
+    }
+}
+
+/** Verifica se a loja está aberta agora com base em horarios. */
+function isStoreOpenNow() {
+    const horarios = storeData.horarios;
+    if (!horarios) return null;
+
+    const now = new Date();
+    const dia = DIAS_SEMANA[now.getDay()];
+    const dayData = horarios[dia];
+    if (!dayData) return false;
+
+    if (dayData.fechado_dia === true) return false;
+
+    const timeStr = now.toTimeString().slice(0, 5); // "HH:MM"
+
+    function between(h, a, b) {
+        if (!a || !b) return false;
+        return (h >= a && h <= b);
+    }
+
+    const inFirst = between(timeStr, dayData.aberto, dayData.fechado);
+    if (inFirst) return true;
+    if (dayData.aberto_2 && dayData.fechado_2) {
+        return between(timeStr, dayData.aberto_2, dayData.fechado_2);
+    }
+    return false;
+}
+
+/** Formata o texto de horário de um dia (ex: "08:00–12:00 / 13:22–18:22" ou "Fechado"). */
+function formatDayHours(dayData) {
+    if (dayData.fechado_dia) return "Fechado";
+    let s = (dayData.aberto && dayData.fechado) ? `${dayData.aberto} – ${dayData.fechado}` : "";
+    if (dayData.aberto_2 && dayData.fechado_2) {
+        s = s ? `${s} / ${dayData.aberto_2} – ${dayData.fechado_2}` : `${dayData.aberto_2} – ${dayData.fechado_2}`;
+    }
+    return s || "—";
+}
+
+function renderHorarios() {
+    const container = document.getElementById('storeStatus');
+    if (!container) return;
+
+    const open = isStoreOpenNow();
+    const horarios = storeData.horarios;
+    let html = '<div class="horarios-status">';
+    html += open === true
+        ? '<span class="status-badge open"><i class="fas fa-clock"></i> Aberto agora</span>'
+        : open === false
+            ? '<span class="status-badge closed"><i class="fas fa-clock"></i> Fechado</span>'
+            : '';
+
+    html += '<details class="horarios-details"><summary>Horários de funcionamento</summary><div class="horarios-table">';
+    DIAS_SEMANA.forEach(dia => {
+        const d = horarios[dia];
+        const text = d ? formatDayHours(d) : "—";
+        const today = dia === DIAS_SEMANA[new Date().getDay()];
+        html += `<div class="horarios-row ${today ? 'today' : ''}"><span class="dia">${dia}</span><span class="hr">${text}</span></div>`;
+    });
+    html += '</div></details></div>';
+    container.innerHTML = html;
 }
 
 function verifyCEP() {
@@ -203,6 +270,10 @@ function toggleCart() {
 
 function sendOrder() {
     if (cart.length === 0) return alert("Seu carrinho está vazio!");
+
+    if (storeData.horarios && isStoreOpenNow() === false) {
+        if (!confirm("A loja está fechada no momento. Deseja mesmo enviar o pedido? O atendimento pode ser feito quando abrir.")) return;
+    }
 
     const name = id('custName').value;
     const address = id('custAddress').value;
